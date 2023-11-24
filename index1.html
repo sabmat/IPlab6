@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Футбольне поле з м'ячем</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #football-field {
+            width: 100vw;
+            height: 100vh;
+            background-color: green;
+            position: relative;
+        }
+
+        #football {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="football-field" onclick="moveBall(event)">
+        <div id="football"></div>
+    </div>
+
+    <script>
+        function moveBall(event) {
+            // Отримати координати кліка
+            const clickX = event.clientX;
+            const clickY = event.clientY;
+
+            // Отримати елементи м'яча та поля
+            const football = document.getElementById('football');
+            const footballField = document.getElementById('football-field');
+
+            // Розрахувати нові координати для центра м'яча
+            const ballX = clickX - football.clientWidth / 2;
+            const ballY = clickY - football.clientHeight / 2;
+
+            // Перевірити, чи м'яч не вилітає за межі поля
+            const maxX = footballField.clientWidth - football.clientWidth;
+            const maxY = footballField.clientHeight - football.clientHeight;
+
+            const clampedX = Math.min(Math.max(ballX, 0), maxX);
+            const clampedY = Math.min(Math.max(ballY, 0), maxY);
+
+            // Задати нові координати м'яча
+            football.style.transform = `translate(${clampedX}px, ${clampedY}px)`;
+        }
+    </script>
+</body>
+</html>

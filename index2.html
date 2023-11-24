@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редагування тексту</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #editor {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+            resize: both;
+            overflow: auto;
+        }
+
+        #textArea {
+            display: none;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div id="editor" contenteditable="true" onkeydown="handleKeyDown(event)">This is editable text. Press Ctrl + E to edit.</div>
+<textarea id="textArea" onkeydown="handleKeyDown(event)"></textarea>
+
+<script>
+    let isEditing = false;
+
+    function handleKeyDown(event) {
+        if (event.ctrlKey && event.key === 'E') {
+            toggleEditMode();
+            event.preventDefault();
+        } else if (event.ctrlKey && event.key === 'S') {
+            saveChanges();
+            event.preventDefault();
+        }
+    }
+
+    function toggleEditMode() {
+        const editor = document.getElementById('editor');
+        const textArea = document.getElementById('textArea');
+
+        if (isEditing) {
+            // Перехід з режиму редагування в режим відображення
+            editor.style.display = 'block';
+            textArea.style.display = 'none';
+            editor.innerText = textArea.value;
+        } else {
+            // Перехід з режиму відображення в режим редагування
+            editor.style.display = 'none';
+            textArea.style.display = 'block';
+            textArea.value = editor.innerText;
+            textArea.focus();
+        }
+
+        isEditing = !isEditing;
+    }
+
+    function saveChanges() {
+        toggleEditMode();
+    }
+</script>
+
+</body>
+</html>

@@ -3,75 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редагування тексту</title>
+    <title>Document</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+        #textBlock {
+          background-color: rgb(241, 243, 211);
+          padding: 10px;
+          display: inline-block;
+          width:300px;
+          text-align: justify;
         }
-
-        #editor {
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: 300px;
-            resize: both;
-            overflow: auto;
+    
+        #editableText {
+          display: none;
+          background-color: rgb(206, 234, 206);
+          width:300px;
+          height: 300px;
+          text-align: justify;
         }
-
-        #textArea {
-            display: none;
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-        }
-    </style>
-</head>
+      </style>
 <body>
-
-<div id="editor" contenteditable="true" onkeydown="handleKeyDown(event)">This is editable text. Press Ctrl + E to edit.</div>
-<textarea id="textArea" onkeydown="handleKeyDown(event)"></textarea>
-
-<script>
-    let isEditing = false;
-
-    function handleKeyDown(event) {
-        if (event.ctrlKey && event.key === 'E') {
-            toggleEditMode();
-            event.preventDefault();
-        } else if (event.ctrlKey && event.key === 'S') {
-            saveChanges();
-            event.preventDefault();
-        }
+    <h3>Натисність Ctrl + e для редагування</h3>
+    <h3>Натисність Ctrl + s для редагування</h3>
+    <div id="textBlock" contenteditable="true">Цей текст можливо редагувати</div>
+    <textarea id="editableText"></textarea>
+    <script>
+        document.addEventListener('keydown', function(event) {
+    var textBlock = document.getElementById('textBlock');
+    var editableText = document.getElementById('editableText');
+  
+    // Перевіряємо, чи натискано Ctrl + e
+    if (event.ctrlKey && event.code === 'KeyE') {
+      event.preventDefault();
+  
+      // Змінюємо стилі та вміст
+      textBlock.style.display = 'none';
+      editableText.style.display = 'inline-block';
+      editableText.value = textBlock.textContent;
     }
-
-    function toggleEditMode() {
-        const editor = document.getElementById('editor');
-        const textArea = document.getElementById('textArea');
-
-        if (isEditing) {
-            // Перехід з режиму редагування в режим відображення
-            editor.style.display = 'block';
-            textArea.style.display = 'none';
-            editor.innerText = textArea.value;
-        } else {
-            // Перехід з режиму відображення в режим редагування
-            editor.style.display = 'none';
-            textArea.style.display = 'block';
-            textArea.value = editor.innerText;
-            textArea.focus();
-        }
-
-        isEditing = !isEditing;
+  
+    // Перевіряємо, чи натискано Ctrl + s
+    if (event.ctrlKey && event.code === 'KeyS' && editableText.style.display === 'inline-block') {
+      event.preventDefault();
+  
+      // Змінюємо стилі та вміст
+      textBlock.style.display = 'inline-block';
+      editableText.style.display = 'none';
+      textBlock.textContent = editableText.value;
     }
-
-    function saveChanges() {
-        toggleEditMode();
-    }
-</script>
-
+});
+    </script>
 </body>
 </html>
